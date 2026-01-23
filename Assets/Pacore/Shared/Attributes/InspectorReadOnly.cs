@@ -6,18 +6,18 @@ namespace PashaBibko.Pacore.Shared.Attributes
 {
 #if UNITY_EDITOR
     [MeansImplicitUse, AttributeUsage(validOn: AttributeTargets.Field)]
-    public class InspectorReadOnlyAttribute : PropertyAttribute
+    public sealed class InspectorReadOnlyAttribute : PropertyAttribute
     {
         public string Name { get; }
 
-        public InspectorReadOnlyAttribute(string _name = null)
+        public InspectorReadOnlyAttribute(string name = null)
         {
-            Name = _name;
+            Name = name;
         }
     }
 #else // #if UNITY_EDITOR
     [MeansImplicitUse, AttributeUsage(validOn: AttributeTargets.Field)]
-    public class InspectorReadOnlyAttribute : Attribute
+    public sealed class InspectorReadOnlyAttribute : Attribute
     {
         public InspectorReadOnlyAttribute(string _name = null) { }
     }
