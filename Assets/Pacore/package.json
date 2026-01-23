@@ -1,0 +1,12 @@
+﻿{
+    "name": "com.pashabibko.pacore",
+    "displayName": "Pacore",
+    "version": "1.0.0",
+    "unity": "2022.3",
+    "description" : "Small Unity Util library",
+    "keywords": [ "tool", "script", "runtime" ],
+    "author" : {
+        "name": "Pasha Bibko",
+        "url": "https://pashabibko.uk/"
+    }
+}
