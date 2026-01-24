@@ -8,8 +8,14 @@ public class TestMonoBehaviour : MonoBehaviour
     [DetectInspectorChanges("OnTestChange")]
     public int Test;
 
-    private void OnTestChange()
+    private void OnTestChange() => LogTestValue();
+
+    [InspectorCallable("Test button")] public void LogTestValue()
     {
-        Debug.Log($"New value: {Test}");
+        Debug.Log($"Test value [{Test}]");
+    }
+    
+    [InspectorCallable("Other Test button")] public void DontLogTestValue()
+    {
     }
 }
