@@ -7,17 +7,24 @@ using UnityEngine;
 
 namespace PashaBibko.Pacore.Editor.Drawers
 {
-    [CustomEditor(typeof(MonoBehaviour), editorForChildClasses: true)]
-    public class MonoBehaviourDrawer : UnityEditor.Editor
+    public static class InspectorCallableAttributeCache
     {
         private const BindingFlags BINDING_FLAGS =
             BindingFlags.Public |
             BindingFlags.NonPublic |
             BindingFlags.Instance;
 
-        private InspectorCallableAttribute[] GetTypeButtons()
+        private static Dictionary<Type, InspectorCallableAttribute[]> Cache { get; } = new();
+
+        public static InspectorCallableAttribute[] GetAllAttributes(Type type)
         {
-            Type type = target.GetType();
+            /* Checks the cache for the type */
+            if (Cache.TryGetValue(type, out InspectorCallableAttribute[] attributes))
+            {
+                return attributes;
+            }
+            
+            /* Finds all the functions with the attribute */
             MethodInfo[] methods = type.GetMethods(BINDING_FLAGS);
             List<InspectorCallableAttribute> buttons = new();
 
@@ -30,14 +37,27 @@ namespace PashaBibko.Pacore.Editor.Drawers
                 }
             }
             
-            return buttons.ToArray();
+            /* Adds it to the cache before returning */
+            InspectorCallableAttribute[] array = buttons.ToArray();
+            Cache.Add(type, array);
+            return array;
         }
+    }
 
+    [CustomEditor(typeof(MonoBehaviour), editorForChildClasses: true)]
+    public class MonoBehaviourDrawer : UnityEditor.Editor
+    {
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
-            
-            InspectorCallableAttribute[] buttons = GetTypeButtons();
+
+            Type type = target.GetType();
+            DrawFunctionButtons(type);
+        }
+        
+        public static void DrawFunctionButtons(Type type)
+        {
+            InspectorCallableAttribute[] buttons = InspectorCallableAttributeCache.GetAllAttributes(type);
             if (buttons.Length == 0)
             {
                 return;
