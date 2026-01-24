@@ -273,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   go: {fileID: 0}
+  Spawnable: PashaBibko.Pacore.Editor.Drawers.DetectInspectorChangesDrawer
   Test: 0
 --- !u!1 &410087039
 GameObject:

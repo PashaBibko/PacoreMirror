@@ -4,11 +4,19 @@ using UnityEngine;
 public class TestMonoBehaviour : MonoBehaviour
 {
     [InspectorReadOnly, SerializeField] private GameObject go;
+
+    [MonoScript(inherited: typeof(MonoBehaviour))] public string Spawnable;
     
     [DetectInspectorChanges("OnTestChange")]
     public int Test;
 
     private void OnTestChange() => LogTestValue();
+
+    [InspectorCallable(nameof(LogSpawnableType))]
+    public void LogSpawnableType()
+    {
+        Debug.Log(Spawnable);
+    }
 
     [InspectorCallable("Test button")] public void LogTestValue()
     {
