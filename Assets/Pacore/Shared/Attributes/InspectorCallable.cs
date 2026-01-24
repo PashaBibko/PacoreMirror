@@ -1,9 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using JetBrains.Annotations;
+using System;
 
 namespace PashaBibko.Pacore.Shared.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method)]
+    [MeansImplicitUse, AttributeUsage(AttributeTargets.Method)]
     public class InspectorCallableAttribute : Attribute
     {
         public string ButtonName { get; }

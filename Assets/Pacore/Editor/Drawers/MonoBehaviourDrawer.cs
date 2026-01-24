@@ -4,41 +4,54 @@ using System.Reflection;
 using PashaBibko.Pacore.Shared.Attributes;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace PashaBibko.Pacore.Editor.Drawers
 {
     public static class InspectorCallableAttributeCache
     {
+        public struct AttributeInfo
+        {
+            public InspectorCallableAttribute Attribute;
+            public MethodInfo AttachedMethod;
+        }
+
         private const BindingFlags BINDING_FLAGS =
             BindingFlags.Public |
             BindingFlags.NonPublic |
             BindingFlags.Instance;
 
-        private static Dictionary<Type, InspectorCallableAttribute[]> Cache { get; } = new();
+        private static Dictionary<Type, AttributeInfo[]> Cache { get; } = new();
 
-        public static InspectorCallableAttribute[] GetAllAttributes(Type type)
+        public static AttributeInfo[] GetAllAttributes(Type type)
         {
             /* Checks the cache for the type */
-            if (Cache.TryGetValue(type, out InspectorCallableAttribute[] attributes))
+            if (Cache.TryGetValue(type, out AttributeInfo[] attributes))
             {
                 return attributes;
             }
             
             /* Finds all the functions with the attribute */
             MethodInfo[] methods = type.GetMethods(BINDING_FLAGS);
-            List<InspectorCallableAttribute> buttons = new();
+            List<AttributeInfo> buttons = new();
 
             foreach (MethodInfo method in methods)
             {
                 InspectorCallableAttribute attribute = method.GetCustomAttribute<InspectorCallableAttribute>();
                 if (attribute != null)
                 {
-                    buttons.Add(attribute);
+                    AttributeInfo info = new()
+                    {
+                        Attribute = attribute,
+                        AttachedMethod = method,
+                    };
+                    
+                    buttons.Add(info);
                 }
             }
             
             /* Adds it to the cache before returning */
-            InspectorCallableAttribute[] array = buttons.ToArray();
+            AttributeInfo[] array = buttons.ToArray();
             Cache.Add(type, array);
             return array;
         }
@@ -50,14 +63,15 @@ namespace PashaBibko.Pacore.Editor.Drawers
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
-
-            Type type = target.GetType();
-            DrawFunctionButtons(type);
+            DrawFunctionButtons(target);
         }
         
-        public static void DrawFunctionButtons(Type type)
+        public static void DrawFunctionButtons(Object target)
         {
-            InspectorCallableAttribute[] buttons = InspectorCallableAttributeCache.GetAllAttributes(type);
+            Type type = target.GetType();
+            InspectorCallableAttributeCache.AttributeInfo[] buttons
+                = InspectorCallableAttributeCache.GetAllAttributes(type);
+            
             if (buttons.Length == 0)
             {
                 return;
@@ -66,9 +80,13 @@ namespace PashaBibko.Pacore.Editor.Drawers
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Functions", EditorStyles.boldLabel);
 
-            foreach (InspectorCallableAttribute button in buttons)
+            foreach (InspectorCallableAttributeCache.AttributeInfo button in buttons)
             {
-                GUILayout.Button(button.ButtonName);
+                string name = button.Attribute.ButtonName;
+                if (GUILayout.Button(name))
+                {
+                    button.AttachedMethod.Invoke(target, null);
+                }
             }
         }
     }

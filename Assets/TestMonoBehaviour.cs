@@ -17,5 +17,6 @@ public class TestMonoBehaviour : MonoBehaviour
     
     [InspectorCallable("Other Test button")] public void DontLogTestValue()
     {
+        Debug.Log("Test");
     }
 }
