@@ -13,8 +13,8 @@ namespace PashaBibko.Pacore.Runtime
 
         public static ReadOnlyCollection<Type> GetAttributesOf<T>()
         {
-            return AttributeCache.TryGetValue(typeof(T), out List<Type> attributes) ?
-                attributes.AsReadOnly() :
+            return AttributeCache.TryGetValue(typeof(T), out List<Type> classes) ?
+                classes.AsReadOnly() :
                 throw new ArgumentException($"Attribute [{nameof(T)}] is not used by any classes");
         }
 
