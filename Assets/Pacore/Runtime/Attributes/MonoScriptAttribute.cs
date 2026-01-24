@@ -1,7 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
-namespace PashaBibko.Pacore.Shared.Attributes
+namespace PashaBibko.Pacore.Attributes
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class MonoScriptAttribute : PropertyAttribute

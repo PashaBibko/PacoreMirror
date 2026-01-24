@@ -5,7 +5,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 
-namespace PashaBibko.Pacore.Runtime
+namespace PashaBibko.Pacore
 {
     public static class ClassAttributeCache
     {

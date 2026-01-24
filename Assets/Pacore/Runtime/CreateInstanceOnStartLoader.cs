@@ -1,11 +1,11 @@
-﻿using PashaBibko.Pacore.Shared.Attributes;
+﻿using PashaBibko.Pacore.Attributes;
 using System.Collections.ObjectModel;
 using UnityEngine;
 using System;
 
 using Object = UnityEngine.Object;
 
-namespace PashaBibko.Pacore.Runtime
+namespace PashaBibko.Pacore
 {
     public static class CreateInstanceOnStartLoader
     {

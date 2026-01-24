@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System;
 
-namespace PashaBibko.Pacore.Shared.Attributes
+namespace PashaBibko.Pacore.Attributes
 {
     [MeansImplicitUse, AttributeUsage(AttributeTargets.Method)]
     public class InspectorCallableAttribute : Attribute

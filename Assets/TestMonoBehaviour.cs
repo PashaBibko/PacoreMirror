@@ -1,4 +1,4 @@
-using PashaBibko.Pacore.Shared.Attributes;
+using PashaBibko.Pacore.Attributes;
 using UnityEngine;
 
 [CreateInstanceOnStart] public class TestMonoBehaviour : MonoBehaviour

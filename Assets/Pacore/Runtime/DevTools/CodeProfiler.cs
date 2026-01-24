@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System;
 
-namespace PashaBibko.Pacore.Shared.DevTools
+namespace PashaBibko.Pacore.DevTools
 {
     public static class CodeProfiler
     {

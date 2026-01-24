@@ -1,4 +1,4 @@
-﻿using PashaBibko.Pacore.Shared.Attributes;
+﻿using PashaBibko.Pacore.Attributes;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;

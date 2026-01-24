@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using System;
 
-namespace PashaBibko.Pacore.Shared.Attributes
+namespace PashaBibko.Pacore.Attributes
 {
 #if UNITY_EDITOR
     [MeansImplicitUse, AttributeUsage(validOn: AttributeTargets.Field)]

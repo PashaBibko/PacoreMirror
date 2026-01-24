@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-namespace PashaBibko.Pacore.Shared.Attributes
+namespace PashaBibko.Pacore.Attributes
 {
     [MeansImplicitUse, AttributeUsage(validOn: AttributeTargets.Field)]
     public sealed class DetectInspectorChangesAttribute : PropertyAttribute

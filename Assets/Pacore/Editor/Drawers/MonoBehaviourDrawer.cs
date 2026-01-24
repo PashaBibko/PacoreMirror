@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using PashaBibko.Pacore.Shared.Attributes;
+using PashaBibko.Pacore.Attributes;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
