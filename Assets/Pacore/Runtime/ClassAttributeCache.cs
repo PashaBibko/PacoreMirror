@@ -22,50 +22,36 @@ namespace PashaBibko.Pacore
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void ScanAllAssemblies()
         {
-            using (CodeProfiler.Start("Assembly scan"))
+            /* Fetches all the class types in all loaded assemblies */
+            Type[] classes = AppDomain.CurrentDomain.GetAssemblies() // Assembly[]
+                .SelectMany(assembly => assembly.GetTypes()) // IEnumerable<Type>
+                .Where(type => type.IsClass && !type.IsAbstract) // IEnumerable<Type>
+                .ToArray();
+
+            /* Allocates space for the cache */
+            AttributeCache = classes // Type[]
+                .Where(type => typeof(Attribute).IsAssignableFrom(type)) // IEnumerable<Type>
+                .ToDictionary
+                (
+                    keySelector: t => t,
+                    elementSelector: _ => new List<Type>()
+                ); // Dictionary<Type, List<Type>>
+
+            /* Finds which attributes are attached to what classes */
+            HashSet<Type> seen = new();
+            foreach (Type current in classes)
             {
-                /* Fetches all the class types in all loaded assemblies */
-                Type[] classes = AppDomain.CurrentDomain.GetAssemblies() // Assembly[]
-                    .SelectMany(assembly =>
-                    {
-                        try
-                        {
-                            return assembly.GetTypes();
-                        }
-
-                        catch (ReflectionTypeLoadException err)
-                        {
-                            return err.Types.Where(t => t != null);
-                        }
-                    }) // IEnumerable<Type>
-                    .Where(type => type.IsClass && !type.IsAbstract) // IEnumerable<Type>
-                    .ToArray();
-
-                /* Allocates space for the cache */
-                AttributeCache = classes // Type[]
-                    .Where(type => typeof(Attribute).IsAssignableFrom(type)) // IEnumerable<Type>
-                    .ToDictionary
-                    (
-                        keySelector: t => t,
-                        elementSelector: _ => new List<Type>()
-                    ); // Dictionary<Type, List<Type>>
-
-                /* Finds which attributes are attached to what classes */
-                HashSet<Type> seen = new();
-                foreach (Type current in classes)
+                /* Tracks the seen attributes */
+                seen.Clear();
+                foreach (object attr in current.GetCustomAttributes(inherit: true))
                 {
-                    /* Tracks the seen attributes */
-                    seen.Clear();
-                    foreach (object attr in current.GetCustomAttributes(inherit: true))
-                    {
-                        seen.Add(attr.GetType());
-                    }
+                    seen.Add(attr.GetType());
+                }
 
-                    /* Adds the class type to each attribute in the dictionary */
-                    foreach (Type type in seen)
-                    {
-                        AttributeCache[type].Add(current);
-                    }
+                /* Adds the class type to each attribute in the dictionary */
+                foreach (Type type in seen)
+                {
+                    AttributeCache[type].Add(current);
                 }
             }
         }
