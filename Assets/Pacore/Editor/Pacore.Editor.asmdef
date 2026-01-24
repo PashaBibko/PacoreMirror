@@ -1,0 +1,16 @@
+{
+    "name": "Pacore.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:73bc4dcce6d82e44c8fe9738b987d694"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
