@@ -1,4 +1,6 @@
+using System.Threading;
 using PashaBibko.Pacore.Attributes;
+using PashaBibko.Pacore.DevTools;
 using UnityEngine;
 
 [CreateInstanceOnStart] public class TestMonoBehaviour : MonoBehaviour
@@ -11,6 +13,20 @@ using UnityEngine;
     public int Test;
 
     private void OnTestChange() => LogTestValue();
+
+    private void Update()
+    {
+        using (CodeProfiler.Start("Test Snippet"))
+        {
+            SpinWait sw = new();
+            int count = Random.Range(1, 50);
+
+            for (int i = 0; i < count; i++)
+            {
+                sw.SpinOnce();
+            }
+        }
+    }
 
     [InspectorCallable(nameof(LogSpawnableType))]
     public void LogSpawnableType()

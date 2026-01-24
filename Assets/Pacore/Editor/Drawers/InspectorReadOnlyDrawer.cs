@@ -11,11 +11,12 @@ namespace PashaBibko.Pacore.Editor.Drawers
         {
             if (attribute is InspectorReadOnlyAttribute readOnlyAttribute)
             {
-                using (new DisabledGUIBlock())
-                {
-                    label.text = readOnlyAttribute.Name ?? label.text; // Uses custom name if it exists
-                    EditorGUI.PropertyField(position, property, label);
-                }
+                GUI.enabled = false;
+
+                label.text = readOnlyAttribute.Name ?? label.text; // Uses custom name if it exists
+                EditorGUI.PropertyField(position, property, label);
+
+                GUI.enabled = true;
             }
         }
     }
