@@ -5,7 +5,7 @@ using System;
 
 namespace PashaBibko.Pacore.Threading
 {
-    public static class ThreadSafe
+    public static partial class ThreadSafe
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Try([NotNull] Action action, Action final = null)

@@ -1,6 +1,8 @@
+using System;
 using System.Threading;
 using PashaBibko.Pacore.Attributes;
 using PashaBibko.Pacore.DevTools;
+using PashaBibko.Pacore.Threading;
 using UnityEngine;
 
 [CreateInstanceOnStart] public class TestMonoBehaviour : MonoBehaviour
@@ -22,11 +24,13 @@ using UnityEngine;
 
     [InspectorCallable("Test button")] public void LogTestValue()
     {
-        Debug.Log($"Test value [{Test}]");
-    }
-    
-    [InspectorCallable("Other Test button")] public void DontLogTestValue()
-    {
-        Debug.Log("Test");
+        try
+        {
+            ThreadSafe.EnforceBackgroundThread();
+        }
+        catch (Exception err)
+        {
+            Debug.LogError(err.Message);
+        }
     }
 }
