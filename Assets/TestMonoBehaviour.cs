@@ -1,9 +1,7 @@
-using System;
-using System.Threading;
 using PashaBibko.Pacore.Attributes;
-using PashaBibko.Pacore.DevTools;
 using PashaBibko.Pacore.Threading;
 using UnityEngine;
+using System;
 
 [CreateInstanceOnStart] public class TestMonoBehaviour : MonoBehaviour
 {
@@ -13,6 +11,9 @@ using UnityEngine;
     
     [DetectInspectorChanges("OnTestChange")]
     public int Test;
+
+    [StaticInspectorField] private static string StaticText;
+    [StaticInspectorField] private static string OtherStaticText;
 
     private void OnTestChange() => LogTestValue();
 

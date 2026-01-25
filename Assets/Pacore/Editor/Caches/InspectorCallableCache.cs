@@ -5,7 +5,7 @@ using System;
 
 namespace PashaBibko.Pacore.Editor.Caches
 {
-    public class InspectorCallableCache
+    public static class InspectorCallableCache
     {
         public struct AttributeInfo
         {
@@ -20,7 +20,7 @@ namespace PashaBibko.Pacore.Editor.Caches
 
         private static Dictionary<Type, AttributeInfo[]> Cache { get; } = new();
 
-        public static AttributeInfo[] GetAllAttributes(Type type)
+        public static AttributeInfo[] GetAllAttributesOfType(Type type)
         {
             /* Checks the cache for the type */
             if (Cache.TryGetValue(type, out AttributeInfo[] attributes))
@@ -34,7 +34,9 @@ namespace PashaBibko.Pacore.Editor.Caches
 
             foreach (MethodInfo method in methods)
             {
-                InspectorCallableAttribute attribute = method.GetCustomAttribute<InspectorCallableAttribute>();
+                InspectorCallableAttribute attribute
+                    = method.GetCustomAttribute<InspectorCallableAttribute>();
+                
                 if (attribute != null)
                 {
                     AttributeInfo info = new()
