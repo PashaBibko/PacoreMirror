@@ -134,8 +134,8 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585548}
-  - component: {fileID: 330585547}
   - component: {fileID: 330585549}
+  - component: {fileID: 330585547}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -273,9 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a411a69d284bfd04bafc210a81b43e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  go: {fileID: 0}
-  Spawnable: PashaBibko.Pacore.Editor.Drawers.DetectInspectorChangesDrawer
-  Test: 0
+  TestValue: 12122
 --- !u!114 &330585549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,9 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a411a69d284bfd04bafc210a81b43e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  go: {fileID: 0}
-  Spawnable: 
-  Test: 0
+  TestValue: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

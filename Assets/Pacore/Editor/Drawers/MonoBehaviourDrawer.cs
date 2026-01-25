@@ -41,24 +41,23 @@ namespace PashaBibko.Pacore.Editor.Drawers
             }
         }
 
-        private static object value;
-
         public static void DrawStaticFields(Object target)
         {
             Type type = target.GetType();
-            FieldInfo[] fields = StaticInspectorFieldCache.GetAllFieldsOfType(type);
+            StaticInspectorFieldCache.FieldData[] fields
+                = StaticInspectorFieldCache.GetAllFieldsOfType(type);
 
             if (fields.Length == 0)
             {
                 return;
             }
-            
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Static Fields", EditorStyles.boldLabel);
 
-            foreach (FieldInfo field in fields)
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Static Fields (only applied at runtime)", EditorStyles.boldLabel);
+
+            for (int i = 0; i < fields.Length; i++)
             {
-                value = DrawStaticField(field, value);
+                fields[i].Value = DrawStaticField(fields[i].Info, fields[i].Value);
             }
         }
 

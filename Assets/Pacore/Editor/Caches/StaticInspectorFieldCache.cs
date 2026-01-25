@@ -7,24 +7,30 @@ namespace PashaBibko.Pacore.Editor.Caches
 {
     public static class StaticInspectorFieldCache
     {
+        public struct FieldData
+        {
+            public FieldInfo Info;
+            public object Value;
+        }
+
         private const BindingFlags BINDING_FLAGS =
             BindingFlags.Static |
             BindingFlags.NonPublic |
             BindingFlags.Public;
 
-        private static Dictionary<Type, FieldInfo[]> Cache { get; } = new();
+        private static Dictionary<Type, FieldData[]> Cache { get; } = new();
 
-        public static FieldInfo[] GetAllFieldsOfType(Type type)
+        public static FieldData[] GetAllFieldsOfType(Type type)
         {
             /* Checks the cache for the type */
-            if (Cache.TryGetValue(type, out FieldInfo[] fields))
+            if (Cache.TryGetValue(type, out FieldData[] cached))
             {
-                return fields;
+                return cached;
             }
             
             /* Else finds all the fields with the attribute */
-            fields = type.GetFields(BINDING_FLAGS);
-            List<FieldInfo> instances = new();
+            FieldInfo[] fields = type.GetFields(BINDING_FLAGS);
+            List<FieldData> instances = new();
 
             foreach (FieldInfo field in fields)
             {
@@ -33,12 +39,17 @@ namespace PashaBibko.Pacore.Editor.Caches
 
                 if (attribute != null)
                 {
-                    instances.Add(field);
+                    FieldData data = new()
+                    {
+                        Info = field
+                    };
+                        
+                    instances.Add(data);
                 }
             }
 
             /* Adds the fields to the cache before returning */
-            FieldInfo[] array = instances.ToArray();
+            FieldData[] array = instances.ToArray();
             Cache.Add(type, array);
             return array;
         }
