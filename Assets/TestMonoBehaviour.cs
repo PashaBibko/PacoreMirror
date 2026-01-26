@@ -1,7 +1,8 @@
 using PashaBibko.Pacore.Attributes;
 using UnityEngine;
 
-[CreateInstanceOnStart] public class TestMonoBehaviour : MonoBehaviour
+[CreateInstanceOnStart, AllowStaticInspectorFields]
+public class TestMonoBehaviour : MonoBehaviour
 {
     public int TestValue;
     

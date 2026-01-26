@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 using System.Reflection;
+using PashaBibko.Pacore.Attributes;
 using PashaBibko.Pacore.Editor.Data;
 using Object = UnityEngine.Object;
 
@@ -45,6 +46,15 @@ namespace PashaBibko.Pacore.Editor.Drawers
         public static void DrawStaticFields(Object target)
         {
             Type type = target.GetType();
+            AllowStaticInspectorFieldsAttribute attr = type.GetCustomAttribute<AllowStaticInspectorFieldsAttribute>();
+            if (attr == null)
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Static Fields (disabled for class)", EditorStyles.boldLabel);
+                
+                return;
+            }
+
             StaticInspectorFieldCache.FieldData[] fields
                 = StaticInspectorFieldCache.GetAllFieldsOfType(type);
 
