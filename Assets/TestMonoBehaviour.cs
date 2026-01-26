@@ -9,8 +9,14 @@ using UnityEngine;
     [StaticInspectorField] private static string OtherStaticText;
     [StaticInspectorField] private static int StaticInt;
 
-    [InspectorCallable(nameof(PrintStaticField))] public void PrintStaticField()
+    [InspectorCallable(nameof(PrintStaticFields))]
+    public void PrintStaticFields()
     {
-        Debug.Log(StaticText);
+        Debug.Log
+        (
+            $"{nameof(TestValue)}: [{TestValue}] " +
+            $"{nameof(StaticText)}: [{StaticText}] " +
+            $"{nameof(OtherStaticText)}: [{OtherStaticText}]"
+        );
     }
 }
