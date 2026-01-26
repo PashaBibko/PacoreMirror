@@ -14,8 +14,7 @@ namespace PashaBibko.Pacore.Data
         public static string FullResourcesPath => Path.Join(Application.dataPath, BASE_PATH);
         public static string ResourcesPath => Path.Join("Assets", BASE_PATH);
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void LoadAndApplyStaticValues()
+        public static void LoadAndApplyStaticValues()
         {
             /* Loads the static values from the serialized file */
             string filename = Path.Join(PATH_FROM_RESOURCES, "StaticFieldValues");

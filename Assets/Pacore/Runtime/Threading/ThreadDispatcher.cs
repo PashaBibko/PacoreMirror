@@ -35,8 +35,12 @@ namespace PashaBibko.Pacore.Threading
 
             Instance = this;
         }
-        
-        
+
+        private void OnDestroy()
+        {
+            Instance = null; // Allows the Dispatcher to be destroyed
+        }
+
         public static void QueueMultistep(IEnumerator routine) => MainThreadMultistepQueue.Enqueue(routine);
         public static void QueueImmediate(Action action) => MainThreadImmediateQueue.Enqueue(action);
 

@@ -46,15 +46,6 @@ namespace PashaBibko.Pacore.Editor.Drawers
         public static void DrawStaticFields(Object target)
         {
             Type type = target.GetType();
-            AllowStaticInspectorFieldsAttribute attr = type.GetCustomAttribute<AllowStaticInspectorFieldsAttribute>();
-            if (attr == null)
-            {
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Static Fields (disabled for class)", EditorStyles.boldLabel);
-                
-                return;
-            }
-
             StaticInspectorFieldCache.FieldData[] fields
                 = StaticInspectorFieldCache.GetAllFieldsOfType(type);
 
