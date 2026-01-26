@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 using System.Reflection;
+using PashaBibko.Pacore.Editor.Data;
 using Object = UnityEngine.Object;
 
 namespace PashaBibko.Pacore.Editor.Drawers
@@ -57,7 +58,14 @@ namespace PashaBibko.Pacore.Editor.Drawers
 
             for (int i = 0; i < fields.Length; i++)
             {
+                EditorGUI.BeginChangeCheck();
                 fields[i].Value = DrawStaticField(fields[i].Info, fields[i].Value);
+                bool changed = EditorGUI.EndChangeCheck();
+
+                if (changed)
+                {
+                    PacoreDataCreator.SetStaticFieldValue(fields[i].Info, fields[i].Value);
+                }
             }
         }
 
