@@ -36,6 +36,7 @@ jobs:
           tag: ${{ github.event.inputs.version }}
           name: Release ${{ github.event.inputs.version }}
           body: "Automated release of Pacore package"
-          files: "pacore-${{ github.event.inputs.event }}.zip"
+          artifacts: "pacore-${{ github.event.inputs.version }}.zip"
           draft: false
           prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
