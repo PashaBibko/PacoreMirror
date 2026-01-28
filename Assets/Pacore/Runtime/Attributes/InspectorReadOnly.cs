@@ -1,11 +1,9 @@
-using JetBrains.Annotations;
 using UnityEngine;
 using System;
 
 namespace PashaBibko.Pacore.Attributes
 {
-#if UNITY_EDITOR
-    [MeansImplicitUse, AttributeUsage(validOn: AttributeTargets.Field)]
+    [AttributeUsage(validOn: AttributeTargets.Field)]
     public sealed class InspectorReadOnlyAttribute : PropertyAttribute
     {
         public string Name { get; }
@@ -15,11 +13,4 @@ namespace PashaBibko.Pacore.Attributes
             Name = name;
         }
     }
-#else // #if UNITY_EDITOR
-    [MeansImplicitUse, AttributeUsage(validOn: AttributeTargets.Field)]
-    public sealed class InspectorReadOnlyAttribute : Attribute
-    {
-        public InspectorReadOnlyAttribute(string _name = null) { }
-    }
-#endif // UNITY_EDITOR
 }

@@ -1,9 +1,8 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 
 namespace PashaBibko.Pacore.Attributes
 {
-    [MeansImplicitUse, AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class InspectorCallableAttribute : Attribute
     {
         public string ButtonName { get; }
