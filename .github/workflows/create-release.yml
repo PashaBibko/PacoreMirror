@@ -1,0 +1,41 @@
+name: Create Unity package from repo
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 1.0.0)'
+        required: true
+    
+jobs:
+  build-package:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        
+      - name: Setup package folder
+        run: |
+          PACKAGE_NAME="com.pashabibko.pacore"
+          mkdir -p package/$PACKAGE_NAME
+          rsync -av --exclude='*.meta' Assets/Pacore/ package/$PACKAGE_NAME/
+          
+      - name: Zip package
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          ZIP_NAME="pacore-$VERSION.zip"
+          cd package
+          zip -r ../$ZIP_NAME ./*
+          cd ..
+          ls -1h $ZIP_NAME
+          
+      - name: Create Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          body: "Automated release of Pacore package"
+          files: "pacore-${{ github.event.inputs.event }}.zip"
+          draft: false
+          prerelease: false
