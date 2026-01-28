@@ -2,9 +2,6 @@
 using UnityEditor;
 using UnityEngine;
 using System;
-using System.Reflection;
-using PashaBibko.Pacore.Attributes;
-using PashaBibko.Pacore.Editor.Data;
 using Object = UnityEngine.Object;
 
 namespace PashaBibko.Pacore.Editor.Drawers
@@ -16,7 +13,6 @@ namespace PashaBibko.Pacore.Editor.Drawers
         {
             DrawDefaultInspector();
             DrawFunctionButtons(target);
-            DrawStaticFields(target);
         }
         
         public static void DrawFunctionButtons(Object target)
@@ -41,54 +37,6 @@ namespace PashaBibko.Pacore.Editor.Drawers
                     button.AttachedMethod.Invoke(target, null);
                 }
             }
-        }
-
-        public static void DrawStaticFields(Object target)
-        {
-            Type type = target.GetType();
-            StaticInspectorFieldCache.FieldData[] fields
-                = StaticInspectorFieldCache.GetAllFieldsOfType(type);
-
-            if (fields.Length == 0)
-            {
-                return;
-            }
-
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Static Fields (only applied at runtime)", EditorStyles.boldLabel);
-
-            for (int i = 0; i < fields.Length; i++)
-            {
-                EditorGUI.BeginChangeCheck();
-                fields[i].Value = DrawStaticField(fields[i].Info, fields[i].Value);
-                bool changed = EditorGUI.EndChangeCheck();
-
-                if (changed)
-                {
-                    PacoreDataCreator.SetStaticFieldValue(fields[i].Info, fields[i].Value);
-                }
-            }
-        }
-
-        private static object DrawStaticField(FieldInfo field, object current)
-        {
-            Type type = field.FieldType;
-            string label = field.Name;
-
-            if (type == typeof(int))
-                return EditorGUILayout.IntField(label, current as int? ?? 0);
-
-            if (type == typeof(float))
-                return EditorGUILayout.FloatField(label, current as float? ?? 0f);
-
-            if (type == typeof(string))
-                return EditorGUILayout.TextField(label, current as string ?? "");
-
-            if (type == typeof(bool))
-                return EditorGUILayout.Toggle(label, current as bool? ?? false);
-            
-            EditorGUILayout.LabelField(label, $"Unsupported type: {type.FullName}");
-            return current;
         }
     }
 }

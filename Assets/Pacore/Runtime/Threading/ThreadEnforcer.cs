@@ -13,7 +13,8 @@ namespace PashaBibko.Pacore.Threading
         {
             public IncorrectThreadException(string message)
                 : base(message)
-            { }
+            {
+            }
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]

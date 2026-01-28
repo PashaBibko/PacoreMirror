@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using PashaBibko.Pacore.Data;
 using UnityEngine;
 
 namespace PashaBibko.Pacore
@@ -53,10 +52,6 @@ namespace PashaBibko.Pacore
                     AttributeCache[type].Add(current);
                 }
             }
-            
-            /* Initializes PacoreDataLoader as it requires this to have been loaded first */
-            // TODO: Add a way for this to trigger an event that can be run by other scripts dynamically
-            PacoreDataLoader.LoadAndApplyStaticValues();
         }
     }
 }
