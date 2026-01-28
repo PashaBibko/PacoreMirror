@@ -1,9 +1,7 @@
 {
     "name": "Pacore",
     "rootNamespace": "",
-    "references": [
-        "GUID:73bc4dcce6d82e44c8fe9738b987d694"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
