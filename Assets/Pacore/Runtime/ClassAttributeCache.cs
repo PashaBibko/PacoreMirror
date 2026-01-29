@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace PashaBibko.Pacore
@@ -9,6 +10,15 @@ namespace PashaBibko.Pacore
     public static class ClassAttributeCache
     {
         private static Dictionary<Type, List<Type>> AttributeCache { get; set; }
+        private static DelegateFunction OnCacheInstantiated = LogCacheInformation;
+
+        private static int AttributeCount;
+        private static int ClassCount;
+        private static long TimeTaken;
+
+        private static void LogCacheInformation()
+        {
+        }
 
         public static ReadOnlyCollection<Type> GetAttributesOf<T>()
         {
@@ -20,6 +30,8 @@ namespace PashaBibko.Pacore
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void ScanAllAssemblies()
         {
+            Stopwatch timer = Stopwatch.StartNew();
+            
             /* Fetches all the class types in all loaded assemblies */
             Type[] classes = AppDomain.CurrentDomain.GetAssemblies() // Assembly[]
                 .SelectMany(assembly => assembly.GetTypes()) // IEnumerable<Type>
@@ -52,6 +64,14 @@ namespace PashaBibko.Pacore
                     AttributeCache[type].Add(current);
                 }
             }
+            
+            /* Stores all relevant info for logging */
+            TimeTaken = timer.ElapsedMilliseconds;
+            AttributeCount = AttributeCache.Count;
+            ClassCount = classes.Length;
+            
+            /* Calls the delegate function for any dependencies */
+            OnCacheInstantiated.Invoke();
         }
     }
 }
