@@ -15,20 +15,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         
-      - name: Setup package folder
+      - name: Setup Unity package folder
         run: |
-          PACKAGE_NAME="com.pashabibko.pacore"
-          mkdir -p package/$PACKAGE_NAME
-          rsync -av --exclude='*.meta' Assets/Pacore/ package/$PACKAGE_NAME/
+          mkdir -p package
+          rsync -av --exclude='*.meta' Assets/Pacore/ package/
           
-      - name: Zip package
+          
+      - name: Create tarball
         run: |
           VERSION=${{ github.event.inputs.version }}
-          ZIP_NAME="pacore-$VERSION.zip"
-          cd package
-          zip -r ../$ZIP_NAME ./*
-          cd ..
-          ls -1h $ZIP_NAME
+          PACKAGE_NAME="com.pashabibko.pacore-${VERSION}.tgz"
+          tar -czf "$PACKAGE_NAME" package
+          ls -1h "$PACKAGE_NAME"
           
       - name: Create Github Release
         uses: ncipollo/release-action@v1
@@ -36,7 +34,7 @@ jobs:
           tag: ${{ github.event.inputs.version }}
           name: Release ${{ github.event.inputs.version }}
           body: "Automated release of Pacore package"
-          artifacts: "pacore-${{ github.event.inputs.version }}.zip"
+          artifacts: "com.pashabibko.pacore-${{ github.event.inputs.version }}.tgz"
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
